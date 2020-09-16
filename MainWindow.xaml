@@ -5,9 +5,34 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:BugTrackingSystem"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="Tracking System" Height="450" Width="800">
     <Grid>
         <Label Content="Label" HorizontalAlignment="Left" Margin="10,41,0,0" VerticalAlignment="Top" Height="369" Width="774"/>
+        <ToolBar HorizontalAlignment="Left" Height="26" Margin="10,10,0,0" VerticalAlignment="Top" Width="774">
+            <Button Name="button_load" VerticalAlignment="Stretch" Width="23" Margin="0,-1" Click="button_load_Click" BorderBrush="{x:Null}" Foreground="Black" OpacityMask="Black">
+                <Button.Background>
+                    <ImageBrush ImageSource="images/loadIcon.png"/>
+                </Button.Background>
+            </Button>
+            <Button Name="button_usereditor" Height="23" VerticalAlignment="Top" Width="23" Margin="0,-1" Click="button_usereditor_Click">
+                <Button.OpacityMask>
+                    <ImageBrush ImageSource="images/userIcon.png"/>
+                </Button.OpacityMask>
+                <Button.Background>
+                    <ImageBrush ImageSource="images/userIcon.png"/>
+                </Button.Background>
+            </Button>
+            <Button x:Name="button_taskeditor" Height="23" VerticalAlignment="Top" Width="23" Margin="0,-1" Click="button_taskeditor_Click">
+                <Button.Background>
+                    <ImageBrush ImageSource="images/taskIcon.png"/>
+                </Button.Background>
+            </Button>
+            <Button x:Name="button_projecteditor" Height="23" VerticalAlignment="Top" Width="23" Margin="0,-1" Click="button_projecteditor_Click">
+                <Button.Background>
+                    <ImageBrush ImageSource="images/projectIcon.png"/>
+                </Button.Background>
+            </Button>
+        </ToolBar>
 
     </Grid>
 </Window>
