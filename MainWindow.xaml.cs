@@ -21,9 +21,12 @@ namespace BugTrackingSystem
     public partial class MainWindow : Window
     {
         public string FilePath = "";
+        private SQLiteBase dataBase;
+
         public MainWindow()
         {
             InitializeComponent();
+            Logger.ClearLogFile();
         }
 
         private void button_new_Click(object sender, RoutedEventArgs e)
@@ -41,8 +44,9 @@ namespace BugTrackingSystem
                 Console.WriteLine(FilePath);
             }
 
-            if (!File.Exists(dbPath))
-                SQLiteConnection.CreateFile(dbPath);
+            dataBase = new SQLiteBase(dbPath);
+            dataBase.CreateNewBase();
+
         }
 
         private void button_load_Click(object sender, RoutedEventArgs e)
@@ -58,7 +62,8 @@ namespace BugTrackingSystem
             //если файл существует
             if (File.Exists(FilePath))
             {
-                SQLiteConnection databaseConnection = new SQLiteConnection($"Data Source={FilePath};;Version=3;");
+                SQLiteConnection databaseConnection = 
+                    new SQLiteConnection($"Data Source={FilePath};;Version=3;");
                 databaseConnection.Open();
             }
 
@@ -79,5 +84,77 @@ namespace BugTrackingSystem
 
         }
 
+    }
+}
+
+class SQLiteBase
+{
+    private SQLiteConnection databaseConnection;
+    private SQLiteCommand databaseCommand;
+    private string dbPath;
+
+    public SQLiteBase(string path)
+    {
+        dbPath = path;
+        createNewConnection();
+    }
+
+    public void CreateNewBase()
+    {
+        SQLiteConnection.CreateFile(dbPath);
+        createNewConnection();
+
+        databaseConnection.Open();
+        createNewTable("Users", "user TEXT, role TEXT");
+        createNewTable("Tasks", "project INTEGER, title TEXT, type TEXT, priority TEXT, user INTEGER, description TEXT");
+        createNewTable("Project", "title TEXT, author TEXT");
+        databaseConnection.Close();
+
+        Logger.WriteRow("System",$"Создана новая база данных. {dbPath}");
+
+    }
+
+    public void LoadBase(string path)
+    {
+        dbPath = path;
+        createNewConnection();
+    }
+
+    private void createNewConnection()
+    {
+        try
+        {
+            databaseConnection = new SQLiteConnection($"Data Source={dbPath};;Version=3;");
+            databaseCommand = new SQLiteCommand(databaseConnection);
+        }
+        catch
+        {
+
+        }
+    }
+
+    private void createNewTable(string tableName, string rows)
+    {
+        databaseCommand.CommandText = $"CREATE TABLE IF NOT EXISTS {tableName} (id INTEGER PRIMARY KEY AUTOINCREMENT, {rows})";
+        databaseCommand.ExecuteNonQuery();
+    }
+}
+
+static class Logger
+{
+    private static string path = "log.txt";
+
+    public static void ClearLogFile()
+    {
+        File.Delete(path);
+    }
+
+    public static void WriteRow(string title, string text)
+    {
+        StreamWriter log = new StreamWriter(path);
+
+        // Московское время +3
+        log.WriteLine($"[{DateTime.UtcNow.Hour + 3}:{DateTime.UtcNow.Minute}:{DateTime.UtcNow.Second}][{title}] - {text}");
+        log.Close();
     }
 }
