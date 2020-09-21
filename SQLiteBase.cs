@@ -63,7 +63,7 @@ namespace BugTrackingSystem
         }
 
         //функция чтения данных из таблицы
-        public void ReadData(string query, string error, TextBox tb)
+        public DataTable ReadData(string query, string error, TextBox tb)
         {
             DataTable dTable = new DataTable();
             try
@@ -97,6 +97,7 @@ namespace BugTrackingSystem
             {
                 Logger.WriteRow("Error", $"Вызвано исключение: {ex.Message}");
             }
+            return dTable;
         }
 
         //создаем новое подключение к базе данных

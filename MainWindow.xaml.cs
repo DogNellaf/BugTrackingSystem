@@ -84,7 +84,9 @@ namespace BugTrackingSystem
 
         private void button_usereditor_Click(object sender, RoutedEventArgs e)
         {
-            
+            UserEditor editor = new UserEditor(this, dataBase);
+            editor.Show();
+            Visibility = Visibility.Hidden;
         }
 
         private void button_taskeditor_Click(object sender, RoutedEventArgs e)
