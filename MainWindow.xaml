@@ -9,28 +9,40 @@
     <Grid>
         <Label Content="Label" HorizontalAlignment="Left" Margin="10,41,0,0" VerticalAlignment="Top" Height="369" Width="774"/>
         <ToolBar HorizontalAlignment="Left" Height="26" Margin="10,10,0,0" VerticalAlignment="Top" Width="774">
-            <Button Name="button_load" VerticalAlignment="Stretch" Width="23" Margin="0,-1" Click="button_load_Click" BorderBrush="{x:Null}" Foreground="Black" OpacityMask="Black">
-                <Button.Background>
-                    <ImageBrush ImageSource="images/loadIcon.png"/>
-                </Button.Background>
+            <Button Name="button_load" VerticalAlignment="Bottom" Width="23" Margin="0,-1" Click="button_load_Click" OpacityMask="Black" Height="23" BorderBrush="{x:Null}">
+                <Button.ContentTemplate >
+                    <DataTemplate >
+                        <Image   Source="images/loadIcon.png" />
+                    </DataTemplate>
+                </Button.ContentTemplate>
+            </Button>
+            <Button x:Name="button_save" VerticalAlignment="Bottom" Width="23" Margin="0,-2,0,-0.2" Click="button_load_Click" OpacityMask="Black" Height="23" BorderBrush="{x:Null}">
+                <Button.ContentTemplate >
+                    <DataTemplate >
+                        <Image   Source="images/loadIcon.png" />
+                    </DataTemplate>
+                </Button.ContentTemplate>
             </Button>
             <Button Name="button_usereditor" Height="23" VerticalAlignment="Top" Width="23" Margin="0,-1" Click="button_usereditor_Click">
-                <Button.OpacityMask>
-                    <ImageBrush ImageSource="images/userIcon.png"/>
-                </Button.OpacityMask>
-                <Button.Background>
-                    <ImageBrush ImageSource="images/userIcon.png"/>
-                </Button.Background>
+                <Button.ContentTemplate >
+                    <DataTemplate >
+                        <Image   Source="images/userIcon.png" />
+                    </DataTemplate>
+                </Button.ContentTemplate>
             </Button>
             <Button x:Name="button_taskeditor" Height="23" VerticalAlignment="Top" Width="23" Margin="0,-1" Click="button_taskeditor_Click">
-                <Button.Background>
-                    <ImageBrush ImageSource="images/taskIcon.png"/>
-                </Button.Background>
+                <Button.ContentTemplate >
+                    <DataTemplate >
+                        <Image   Source="images/taskIcon.png" />
+                    </DataTemplate>
+                </Button.ContentTemplate>
             </Button>
             <Button x:Name="button_projecteditor" Height="23" VerticalAlignment="Top" Width="23" Margin="0,-1" Click="button_projecteditor_Click">
-                <Button.Background>
-                    <ImageBrush ImageSource="images/projectIcon.png"/>
-                </Button.Background>
+                <Button.ContentTemplate >
+                    <DataTemplate >
+                        <Image   Source="images/projectIcon.png" />
+                    </DataTemplate>
+                </Button.ContentTemplate>
             </Button>
         </ToolBar>
 
