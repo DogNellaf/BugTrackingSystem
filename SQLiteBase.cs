@@ -63,16 +63,15 @@ namespace BugTrackingSystem
         }
 
         //функция чтения данных из таблицы
-        public void ReadTable(string table, TextBox tb)
+        public void ReadData(string query, string error, TextBox tb)
         {
             DataTable dTable = new DataTable();
             try
             {
-                string query = $"SELECT * FROM {table}";
                 SQLiteDataAdapter adapter = new SQLiteDataAdapter(query, databaseConnection);
                 adapter.Fill(dTable);
 
-                Logger.WriteRow("System", $"Считана таблица {table};");
+                Logger.WriteRow("System", $"Выполнен запрос {query};");
 
                 if (dTable.Rows.Count > 0)
                 {
@@ -87,7 +86,11 @@ namespace BugTrackingSystem
                         }
                         tb.Text += "\n";
                     }
-                        
+                }
+                else
+                {
+                    tb.Text += error;
+                    Logger.WriteRow("Warning", error);
                 }
             }
             catch (SQLiteException ex)

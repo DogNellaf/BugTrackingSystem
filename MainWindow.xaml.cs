@@ -69,9 +69,12 @@ namespace BugTrackingSystem
                 dataBase.dbPath = openFileDialog.FileName;
                 dataBase.LoadBase();
 
+                textbox_ListOfUsers.Text = "";
+                textbox_ListOfProjects.Text = "";
+
                 //загружаем все таблицы
-                dataBase.ReadTable("Users", textbox_ListOfUsers);
-                dataBase.ReadTable("Project", textbox_ListOfProjects);
+                dataBase.ReadData("SELECT * FROM Users", "Таблица пустая", textbox_ListOfUsers);
+                dataBase.ReadData("SELECT * FROM Project", "Таблица пустая", textbox_ListOfProjects);
             }
             else
             {
@@ -101,9 +104,18 @@ namespace BugTrackingSystem
 
         private void button_loadByProject_Click(object sender, RoutedEventArgs e)
         {
+            textbox_ListOfTasksInProject.Text = "";
             if (!(textbox_NameOfProject.Text == ""))
             {
-                
+                if (int.TryParse(textbox_NameOfProject.Text, out int number))
+                {
+                    dataBase.ReadData($"SELECT * FROM Tasks T WHERE T.project = {number}", 
+                        "Проект не найден или в проекте нет задач;", textbox_ListOfTasksInProject);
+                }
+                else
+                {
+                    Logger.WriteRow("Error", $"Не удалось считать номер проекта;");
+                }
             }
             else
             {
@@ -113,13 +125,14 @@ namespace BugTrackingSystem
 
         private void button_loadByUser_Click(object sender, RoutedEventArgs e)
         {
-            if (!(textbox_NameOfProject.Text == ""))
+            if (!(textbox_NameOfUser.Text == ""))
             {
-
+                dataBase.ReadData($"SELECT * FROM Tasks WHERE user = '{textbox_NameOfUser.Text}'",
+                    "Пользователь не найден или на пользователе нет задач;", textbox_ListOfTasksInUser);
             }
             else
             {
-                Logger.WriteRow("Warning", $"Пользователь попыталя произвести выборку задач по исполнителю без номера проекта;");
+                Logger.WriteRow("Warning", $"Пользователь попыталя произвести выборку задач по исполнителю без имени пользователя;");
             }
         }
     }

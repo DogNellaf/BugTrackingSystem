@@ -30,7 +30,7 @@ namespace BugTrackingSystem
 
             //добавляем новую строку и записываем все в файл
             StreamWriter logWriter = new StreamWriter(path);
-            logWriter.WriteAsync(logText + $"[{DateTime.UtcNow.Hour + 3}:{DateTime.UtcNow.Minute}:{DateTime.UtcNow.Second}][{title}] - {text}\n"); // Московское время +3
+            logWriter.Write(logText + $"[{DateTime.UtcNow.Hour + 3}:{DateTime.UtcNow.Minute}:{DateTime.UtcNow.Second}][{title}] - {text}\n"); // Московское время +3
             logWriter.Close();
         }
     }
