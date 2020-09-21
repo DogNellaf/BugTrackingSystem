@@ -9,6 +9,13 @@
     <Grid>
         <Label Content="Label" HorizontalAlignment="Left" Margin="10,41,0,0" VerticalAlignment="Top" Height="369" Width="774"/>
         <ToolBar HorizontalAlignment="Left" Height="26" Margin="10,10,0,0" VerticalAlignment="Top" Width="774">
+            <Button Name="button_new" VerticalAlignment="Bottom" Width="23" Margin="0,-1" OpacityMask="Black" Height="23" BorderBrush="{x:Null}" Click="button_new_Click">
+                <Button.ContentTemplate >
+                    <DataTemplate >
+                        <Image   Source="images/newIcon.png" />
+                    </DataTemplate>
+                </Button.ContentTemplate>
+            </Button>
             <Button Name="button_load" VerticalAlignment="Bottom" Width="23" Margin="0,-1" Click="button_load_Click" OpacityMask="Black" Height="23" BorderBrush="{x:Null}">
                 <Button.ContentTemplate >
                     <DataTemplate >
@@ -19,7 +26,7 @@
             <Button x:Name="button_save" VerticalAlignment="Bottom" Width="23" Margin="0,-2,0,-0.2" Click="button_load_Click" OpacityMask="Black" Height="23" BorderBrush="{x:Null}">
                 <Button.ContentTemplate >
                     <DataTemplate >
-                        <Image   Source="images/loadIcon.png" />
+                        <Image   Source="images/saveIcon.png" />
                     </DataTemplate>
                 </Button.ContentTemplate>
             </Button>

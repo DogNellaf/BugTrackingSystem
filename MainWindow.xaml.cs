@@ -26,6 +26,25 @@ namespace BugTrackingSystem
             InitializeComponent();
         }
 
+        private void button_new_Click(object sender, RoutedEventArgs e)
+        {
+            //получаем название файла до папки
+            SaveFileDialog saveFileDialog = new SaveFileDialog
+            {
+                Filter = "(*.sqlite3)|*.sqlite3",
+            };
+
+            string dbPath = "Error";
+            if (saveFileDialog.ShowDialog() == true)
+            {
+                dbPath = saveFileDialog.FileName;
+                Console.WriteLine(FilePath);
+            }
+
+            if (!File.Exists(dbPath))
+                SQLiteConnection.CreateFile(dbPath);
+        }
+
         private void button_load_Click(object sender, RoutedEventArgs e)
         {
             //получаем путь до папки
@@ -39,8 +58,7 @@ namespace BugTrackingSystem
             //если файл существует
             if (File.Exists(FilePath))
             {
-                SQLiteConnection databaseConnection = 
-                    new SQLiteConnection("Data Source=Base;Version=3;");
+                SQLiteConnection databaseConnection = new SQLiteConnection($"Data Source={FilePath};;Version=3;");
                 databaseConnection.Open();
             }
 
@@ -60,5 +78,6 @@ namespace BugTrackingSystem
         {
 
         }
+
     }
 }
