@@ -64,14 +64,14 @@ namespace BugTrackingSystem
             //если пользователь загрузил файл, то создаем базу данных, иначе логируем отказ
             if (openFileDialog.ShowDialog() == true)
             {
-                FilePath = openFileDialog.FileName;
 
                 //подгружаем базу
-                dataBase.LoadBase(FilePath);
+                dataBase.dbPath = openFileDialog.FileName;
+                dataBase.LoadBase();
 
                 //загружаем все таблицы
-                dataBase.ReadTable("Users", label_ListOfUsers);
-                dataBase.ReadTable("Tasks", label_ListOfProjects);
+                dataBase.ReadTable("Users", textbox_ListOfUsers);
+                dataBase.ReadTable("Project", textbox_ListOfProjects);
             }
             else
             {
@@ -97,6 +97,30 @@ namespace BugTrackingSystem
         private void text_NameOfProject_TextChanged(object sender, TextChangedEventArgs e)
         {
 
+        }
+
+        private void button_loadByProject_Click(object sender, RoutedEventArgs e)
+        {
+            if (!(textbox_NameOfProject.Text == ""))
+            {
+                
+            }
+            else
+            {
+                Logger.WriteRow("Warning", $"Пользователь попыталя произвести выборку задач по проекту без номера проекта;");
+            }
+        }
+
+        private void button_loadByUser_Click(object sender, RoutedEventArgs e)
+        {
+            if (!(textbox_NameOfProject.Text == ""))
+            {
+
+            }
+            else
+            {
+                Logger.WriteRow("Warning", $"Пользователь попыталя произвести выборку задач по исполнителю без номера проекта;");
+            }
         }
     }
 }

@@ -5,9 +5,12 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:BugTrackingSystem"
         mc:Ignorable="d"
-        Title="Tracking System" Height="500" Width="839.333">
+        Title="Tracking System" Height="616.667" Width="839.333">
     <Grid Margin="0,0,4,1">
-        <ToolBar HorizontalAlignment="Left" Height="26" Margin="10,10,0,0" VerticalAlignment="Top" Width="774">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <ToolBar HorizontalAlignment="Left" Height="26" Margin="10,10,0,0" VerticalAlignment="Top" Width="807">
             <Button Name="button_new" VerticalAlignment="Bottom" Width="23" Margin="0,-1" OpacityMask="Black" Height="23" BorderBrush="{x:Null}" Click="button_new_Click">
                 <Button.ContentTemplate >
                     <DataTemplate >
@@ -51,16 +54,18 @@
                 </Button.ContentTemplate>
             </Button>
         </ToolBar>
-        <Label Name="label_ListOfUsers" Content="" HorizontalAlignment="Left" Margin="10,66,0,0" VerticalAlignment="Top" Height="394" Width="200" Grid.ColumnSpan="6"/>
-        <Label Name="label_ListOfProjects" Content="" HorizontalAlignment="Left" Margin="215,66,0,0" VerticalAlignment="Top" Height="394" Width="200" Grid.ColumnSpan="6"/>
-        <Label Name="label_ListOfTasksInProject" Content="" HorizontalAlignment="Left" Margin="420,66,0,0" VerticalAlignment="Top" Height="364" Width="200"/>
-        <Label Name="label_ListOfTasksInUser" Content="" HorizontalAlignment="Left" Margin="625,66,0,0" VerticalAlignment="Top" Height="364" Width="200"/>
-        <TextBox Name="text_NameOfProject" HorizontalAlignment="Left" Height="20" Margin="420,435,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="200" TextChanged="text_NameOfProject_TextChanged"/>
-        <TextBox x:Name="text_NameOfUser" HorizontalAlignment="Left" Height="20" Margin="625,435,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="195"/>
-        <Label x:Name="label_ListOfUsers_Copy" Content="Пользователи" HorizontalAlignment="Left" Margin="10,41,0,0" VerticalAlignment="Top" Height="25" Width="195"/>
-        <Label x:Name="label_ListOfUsers_Copy1" Content="Проекты" HorizontalAlignment="Left" Margin="210,41,0,0" VerticalAlignment="Top" Height="25" Width="200"/>
-        <Label x:Name="label_ListOfUsers_Copy2" Content="Список задач по проекту" HorizontalAlignment="Left" Margin="420,41,0,0" VerticalAlignment="Top" Height="25" Width="200"/>
-        <Label x:Name="label_ListOfUsers_Copy3" Content="Список задач по проекту" HorizontalAlignment="Left" Margin="625,41,0,0" VerticalAlignment="Top" Height="25" Width="200"/>
+        <TextBox Name="textbox_ListOfUsers" Text="" IsReadOnly="True" TextWrapping="Wrap" HorizontalAlignment="Left" Margin="10,66,0,0" VerticalAlignment="Top" Height="100" Width="807"/>
+        <TextBox Name="textbox_ListOfProjects" Text="" IsReadOnly="True" TextWrapping="Wrap" HorizontalAlignment="Left" Margin="10,201,0,0" VerticalAlignment="Top" Height="100" Width="807"/>
+        <TextBox Name="textbox_ListOfTasksInProject" Text="" IsReadOnly="True" TextWrapping="Wrap" HorizontalAlignment="Left" Margin="10,336,0,0" VerticalAlignment="Top" Height="102" Width="807"/>
+        <TextBox Name="textbox_ListOfTasksInUser" Text="" IsReadOnly="True" TextWrapping="Wrap" HorizontalAlignment="Left" Margin="10,473,0,0" VerticalAlignment="Top" Height="101" Width="807"/>
+        <TextBox x:Name="textbox_NameOfProject" HorizontalAlignment="Left" Height="25" Margin="622,306,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="162" TextChanged="text_NameOfProject_TextChanged"/>
+        <TextBox x:Name="textbox_NameOfUser" HorizontalAlignment="Left" Height="25" Margin="622,443,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="162"/>
+        <Label Content="Пользователи (номер, имя, роль)" HorizontalAlignment="Left" Margin="10,41,0,0" VerticalAlignment="Top" Height="25" Width="807"/>
+        <Label Content="Проекты (номер, название, автор)" HorizontalAlignment="Left" Margin="10,171,0,0" VerticalAlignment="Top" Height="25" Width="807"/>
+        <Label Content="Список задач по проекту (номер, номер проекта, название, тип, приоритет, исполнитель, описание)" HorizontalAlignment="Left" Margin="10,306,0,0" VerticalAlignment="Top" Height="25" Width="602"/>
+        <Label Content="Список задач по исполнителю (номер, номер проекта, название, тип, приоритет, исполнитель, описание)" HorizontalAlignment="Left" Margin="10,443,0,0" VerticalAlignment="Top" Height="25" Width="607"/>
+        <Button Name="button_loadByProject" Content="✓" HorizontalAlignment="Left" Margin="789,306,0,0" VerticalAlignment="Top" Width="28" Height="25" Click="button_loadByProject_Click"/>
+        <Button Name="button_loadByUser" Content="✓" HorizontalAlignment="Left" Margin="789,443,0,0" VerticalAlignment="Top" Width="28" Height="25" Click="button_loadByUser_Click"/>
 
     </Grid>
 </Window>

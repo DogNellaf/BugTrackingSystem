@@ -12,13 +12,15 @@ namespace BugTrackingSystem
     //класс взаимодействия с базой данных
     public class SQLiteBase
     {
-        //соединение с базой данных, команда и путь
+        //соединение с базой данных и команда
         private SQLiteConnection databaseConnection;
         private SQLiteCommand databaseCommand;
-        private string dbPath;
+        
         
         //конструктор для начальной инциализации
         public SQLiteBase() { }
+
+        public string dbPath;
 
         //конструктор для подключения к новой базе данных
         public SQLiteBase(string path)
@@ -46,10 +48,8 @@ namespace BugTrackingSystem
         }
 
         //загрузка базы
-        public void LoadBase(string path)
+        public void LoadBase()
         {
-            dbPath = path;
-
             //если удалось установить соединение
             if (createNewConnection())
             {
@@ -63,7 +63,7 @@ namespace BugTrackingSystem
         }
 
         //функция чтения данных из таблицы
-        public void ReadTable(string table, Label label)
+        public void ReadTable(string table, TextBox tb)
         {
             DataTable dTable = new DataTable();
             try
@@ -72,18 +72,20 @@ namespace BugTrackingSystem
                 SQLiteDataAdapter adapter = new SQLiteDataAdapter(query, databaseConnection);
                 adapter.Fill(dTable);
 
+                Logger.WriteRow("System", $"Считана таблица {table};");
+
                 if (dTable.Rows.Count > 0)
                 {
-                    label.Content = "";
+                    tb.Text = "";
 
                     for (int i = 0; i < dTable.Rows.Count; i++)
                     {
                         object[] temp = dTable.Rows[i].ItemArray;
                         for (int j = 0; j < temp.Length; j++)
                         {
-                            label.Content += $"{dTable.Rows[i].ItemArray[j]}; ";
+                            tb.Text += $"{dTable.Rows[i].ItemArray[j]}; ";
                         }
-                        label.Content += "\n";
+                        tb.Text += "\n";
                     }
                         
                 }
@@ -116,6 +118,7 @@ namespace BugTrackingSystem
         {
             databaseCommand.CommandText = $"CREATE TABLE IF NOT EXISTS {tableName} (id INTEGER PRIMARY KEY AUTOINCREMENT, {rows})";
             databaseCommand.ExecuteNonQuery();
+            Logger.WriteRow("System", $"Создана таблица {tableName};");
         }
 
         
