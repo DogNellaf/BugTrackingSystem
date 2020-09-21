@@ -63,6 +63,8 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Logger.cs" />
+    <Compile Include="SQLiteBase.cs" />
     <Compile Include="Task.cs" />
     <Compile Include="User.cs" />
     <Page Include="MainWindow.xaml">
