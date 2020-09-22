@@ -37,8 +37,7 @@ namespace BugTrackingSystem
         {
             dataBase.LoadBase();
             //загружаем все таблицы
-            dataBase.QueryToBase("SELECT * FROM Users", "Таблица пустая", textbox_ListOfUsers);
-            dataBase.QueryToBase("SELECT * FROM Project", "Таблица пустая", textbox_ListOfProjects);
+            FillTextBoxes();
             Logger.WriteRow("System", "база обновлена;");
         }
 
@@ -59,6 +58,7 @@ namespace BugTrackingSystem
                 dataBase.CreateNewBase();
                 dataBase.dbPath = FilePath;
                 dataBase.LoadBase();
+                FillTextBoxes();
             }
             else
             {
@@ -80,18 +80,45 @@ namespace BugTrackingSystem
                 dataBase.dbPath = openFileDialog.FileName;
                 dataBase.LoadBase();
 
-                textbox_ListOfUsers.Text = "";
-                textbox_ListOfProjects.Text = "";
-
-                //загружаем все таблицы
-                dataBase.QueryToBase("SELECT * FROM Users", "Таблица пустая", textbox_ListOfUsers);
-                dataBase.QueryToBase("SELECT * FROM Project", "Таблица пустая", textbox_ListOfProjects);
+                FillTextBoxes();
             }
             else
             {
                 Logger.WriteRow("System", $"Пользователь передумал загружать базу данных из файла;");
             }
         }
+
+        //получение данных в текст боксы
+        private void FillTextBoxes()
+        {
+            textbox_ListOfUsers.Text = "";
+            textbox_ListOfProjects.Text = "";
+
+            //загружаем все таблицы
+            dataBase.QueryToBase("SELECT * FROM Users", "Таблица пустая", textbox_ListOfUsers);
+            dataBase.QueryToBase("SELECT * FROM Project", "Таблица пустая", textbox_ListOfProjects);
+        }
+
+        /*
+        private void button_save_Click(object sender, RoutedEventArgs e)
+        {
+            //получаем название файла до папки
+            SaveFileDialog saveFileDialog = new SaveFileDialog
+            {
+                Filter = "(*.sqlite3)|*.sqlite3",
+            };
+
+            //если пользователь сохранил файл, то создаем базу данных, иначе логируем отказ
+            if (saveFileDialog.ShowDialog() == true)
+            {
+                FilePath = saveFileDialog.FileName;
+                dataBase.LoadBase();
+            }
+            else
+            {
+                Logger.WriteRow("System", $"Пользователь передумал создавать новую базу данных;");
+            }
+        }*/
 
         private void button_usereditor_Click(object sender, RoutedEventArgs e)
         {
@@ -168,5 +195,7 @@ namespace BugTrackingSystem
                 Logger.WriteRow("Warning", $"Пользователь попыталя произвести выборку задач по исполнителю без имени пользователя;");
             }
         }
+
+
     }
 }

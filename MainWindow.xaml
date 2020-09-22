@@ -25,13 +25,6 @@
                     </DataTemplate>
                 </Button.ContentTemplate>
             </Button>
-            <Button x:Name="button_save" VerticalAlignment="Bottom" Width="23" Margin="0,-2,0,-0.2" Click="button_load_Click" OpacityMask="Black" Height="23" BorderBrush="{x:Null}">
-                <Button.ContentTemplate >
-                    <DataTemplate >
-                        <Image   Source="images/saveIcon.png" />
-                    </DataTemplate>
-                </Button.ContentTemplate>
-            </Button>
             <Button Name="button_usereditor" Height="23" VerticalAlignment="Top" Width="23" Margin="0,-1" Click="button_usereditor_Click">
                 <Button.ContentTemplate >
                     <DataTemplate >

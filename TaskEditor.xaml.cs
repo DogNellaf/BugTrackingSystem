@@ -60,53 +60,12 @@ namespace BugTrackingSystem
                 }
             }
 
+            DataTable users = dataBase.QueryToBase("SELECT * FROM Users", "Таблица с пользователями пустая", null);
+            DataTable project = dataBase.QueryToBase("SELECT * FROM Project", "Таблица с проектами пустая", null);
+
             if (!isHaveEmpty)
             {
-                DataTable users = dataBase.QueryToBase("SELECT * FROM Users", "Таблица с пользователями пустая", null);
-                DataTable project = dataBase.QueryToBase("SELECT * FROM Project", "Таблица с проектами пустая", null);
-
-                bool usersIsCorrect = false;
-                bool projectsIsCorrect = false;
-
-                //проверка по проектам
-                for (int i = 0; i < table.Rows.Count; i++)
-                {
-                    for (int j = 0; j < project.Rows.Count; j++)
-                    {
-                        if (gen.generatedTextBoxed[1, i].Text == project.Rows[j].ItemArray[0].ToString())
-                        {
-                            projectsIsCorrect = true;
-                            break;
-                        }
-                        else
-                        {
-                            projectsIsCorrect = false;
-                        }
-                    }
-                    if (!projectsIsCorrect)
-                        break;
-                }
-
-                //проверка по пользователям
-                for (int i = 0; i < table.Rows.Count; i++)
-                {
-                    for (int j = 0; j < users.Rows.Count; j++)
-                    {
-                        if (gen.generatedTextBoxed[5, i].Text == users.Rows[j].ItemArray[0].ToString())
-                        {
-                            usersIsCorrect = true;
-                            break;
-                        }
-                        else
-                        {
-                            usersIsCorrect = false;
-                        }
-                    }
-                    if (!usersIsCorrect)
-                        break;
-                }
-
-                if (usersIsCorrect && projectsIsCorrect)
+                if (project.Rows.Count == 0 || users.Rows.Count == 0)
                 {
                     dataBase.ReWriteTable(ref gen, "Tasks");
                     window.ReloadBase();
@@ -115,9 +74,61 @@ namespace BugTrackingSystem
                 }
                 else
                 {
-                    MessageBox.Show(@"Введите реальные проект\пользователя!", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-                    Logger.WriteRow("Warning", "Пользователь ввел несуществующие данные!");
+                    bool usersIsCorrect = false;
+                    bool projectsIsCorrect = false;
+
+                    //проверка по проектам
+                    for (int i = 0; i < table.Rows.Count; i++)
+                    {
+                        for (int j = 0; j < project.Rows.Count; j++)
+                        {
+                            if (gen.generatedTextBoxed[1, i].Text == project.Rows[j].ItemArray[0].ToString())
+                            {
+                                projectsIsCorrect = true;
+                                break;
+                            }
+                            else
+                            {
+                                projectsIsCorrect = false;
+                            }
+                        }
+                        if (!projectsIsCorrect)
+                            break;
+                    }
+
+                    //проверка по пользователям
+                    for (int i = 0; i < table.Rows.Count; i++)
+                    {
+                        for (int j = 0; j < users.Rows.Count; j++)
+                        {
+                            if (gen.generatedTextBoxed[5, i].Text == users.Rows[j].ItemArray[0].ToString())
+                            {
+                                usersIsCorrect = true;
+                                break;
+                            }
+                            else
+                            {
+                                usersIsCorrect = false;
+                            }
+                        }
+                        if (!usersIsCorrect)
+                            break;
+                    }
+
+                    if (usersIsCorrect && projectsIsCorrect)
+                    {
+                        dataBase.ReWriteTable(ref gen, "Tasks");
+                        window.ReloadBase();
+                        window.Visibility = Visibility.Visible;
+                        Close();
+                    }
+                    else
+                    {
+                        MessageBox.Show(@"Введите реальные проект\пользователя!", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                        Logger.WriteRow("Warning", "Пользователь ввел несуществующие данные!");
+                    }
                 }
+                
 
             }
         }
