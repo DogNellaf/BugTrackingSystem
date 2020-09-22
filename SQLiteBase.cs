@@ -42,6 +42,30 @@ namespace BugTrackingSystem
 
         }
 
+        public void LoadTableInBoxes(ref Generator gen, string name)
+        {
+            DataTable table = QueryToBase($"SELECT * FROM {name}", "Таблица пустая", null);
+            for (int y = 0; y < table.Rows.Count; y++)
+            {
+                for (int x = 0; x < table.Columns.Count; x++)
+                {
+                    gen.generatedTextBoxed[x, y].Text = table.Rows[y].ItemArray[x].ToString();
+                }
+            }
+        }
+
+        public void ReWriteTable(ref Generator gen, string name)
+        { 
+            for (int y = 0; y < gen.RowCount; y++)
+            {
+                for (int x = 1; x < gen.CollumnCount; x++)
+                {
+                    string query = $"UPDATE {name} SET {gen.CollumnTexts[x]} = '{gen.generatedTextBoxed[x, y].Text}' where id = {y}";
+                    QueryToBase(query, $"Не удалось заменить значение (запрос {query})", null);
+                }
+            }
+        }
+
         //создание новой базы 
         public void CreateNewBase()
         {
@@ -74,7 +98,6 @@ namespace BugTrackingSystem
             }
 
         }
-
 
         //чтение данных из базы
         public DataTable QueryToBase(string query, string error, TextBox tb)

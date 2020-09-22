@@ -33,11 +33,13 @@ namespace BugTrackingSystem
             table = dataBase.QueryToBase("SELECT * FROM Users", "Таблица с пользователями пустая", null);
             gen = new Generator(ref mainGrid, new string[] {"id", "user", "role"}, 3, table.Rows.Count);
             gen.GenerateElements();
-
+            dataBase.LoadTableInBoxes(ref gen, "Users");
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
+            dataBase.ReWriteTable(ref gen, "Users");
+            window.ReloadBase();
             window.Visibility = Visibility.Visible;
             Close();
         }
@@ -51,14 +53,19 @@ namespace BugTrackingSystem
             table = dataBase.QueryToBase("SELECT * FROM Users", "Таблица с пользователями пустая", null);
             gen.RemoveElements();
             gen.GenerateElements(table.Rows.Count);
+            dataBase.LoadTableInBoxes(ref gen, "Users");
         }
 
         private void button_confirm_Click(object sender, RoutedEventArgs e)
         {
-            if (isEditable)
+            int rowCount;
+            RowWindow row = new RowWindow();
+            if (row.ShowDialog() == true)
             {
+                rowCount = int.Parse(row.textbox_input.Text);
+                dataBase.QueryToBase($"DELETE FROM Users WHERE id = {rowCount}; ", $"Не удалось удалить строку {rowCount}", null);
+            }    
 
-            }
         }
     }
 }

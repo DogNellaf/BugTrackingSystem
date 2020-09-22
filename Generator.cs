@@ -20,8 +20,8 @@ namespace BugTrackingSystem
 
         public string[] CollumnTexts;
 
-        private int CollumnCount;
-        private int RowCount;
+        public int CollumnCount;
+        public int RowCount;
 
         public Generator(ref Grid grid, string[] texts, int collumn, int row)
         {
@@ -87,13 +87,18 @@ namespace BugTrackingSystem
             {
                 HorizontalAlignment = HorizontalAlignment.Left,
                 VerticalAlignment = VerticalAlignment.Top,
-                Margin = new Thickness(70 * x + 40, 40 * y, 0, 0),
+                Margin = new Thickness(140 * x + 40, 40 * y, 0, 0),
                 Height = 30,
-                Width = 30,
+                Width = 100,
                 FontFamily = new FontFamily("Microsoft Sans Serif"),
                 FontSize = 16,
-                TextAlignment = TextAlignment.Center
+                TextAlignment = TextAlignment.Center,
             };
+
+            if (x == 0)
+                generatedTextBoxed[x, y].IsReadOnly = true;
+
+
             baseGrid.Children.Add(generatedTextBoxed[x, y]);
         }
 
@@ -103,7 +108,7 @@ namespace BugTrackingSystem
             {
                 HorizontalAlignment = HorizontalAlignment.Left,
                 VerticalAlignment = VerticalAlignment.Top,
-                Margin = new Thickness(70 * x, 40 * y, 0, 0),
+                Margin = new Thickness(140 * x, 40 * y, 0, 0),
                 Height = 30,
                 Width = 60,
                 FontFamily = new FontFamily("Microsoft Sans Serif"),
