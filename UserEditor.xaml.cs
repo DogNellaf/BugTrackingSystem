@@ -31,10 +31,9 @@ namespace BugTrackingSystem
             InitializeComponent();
 
             table = dataBase.QueryToBase("SELECT * FROM Users", "Таблица с пользователями пустая", null);
-            gen = new Generator(ref mainGrid, new string[] {"id", "user", "role"}, 3);
-            gen.GenerateElements(table.Rows.Count);
+            gen = new Generator(ref mainGrid, new string[] {"id", "user", "role"}, 3, table.Rows.Count);
+            gen.GenerateElements();
 
-            
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
@@ -49,7 +48,8 @@ namespace BugTrackingSystem
                 "Таблица пустая", null);
             dataBase.QueryToBase($"INSERT INTO USERS (id, user, role) values " +
                 $"({dt.Rows.Count}, NULL, NULL)", "Не удалось добавить новое значение", null);
-            gen.RemoveElements(table.Rows.Count);
+            table = dataBase.QueryToBase("SELECT * FROM Users", "Таблица с пользователями пустая", null);
+            gen.RemoveElements();
             gen.GenerateElements(table.Rows.Count);
         }
 

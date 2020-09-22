@@ -16,105 +16,127 @@ namespace BugTrackingSystem
         public Grid baseGrid = new Grid();
         public TextBox[,] generatedTextBoxed;
         public Label[,] generatedLabels;
-        public Button[] generatedButtons;
+        //public Button[] generatedButtons;
 
         public string[] CollumnTexts;
 
         private int CollumnCount;
+        private int RowCount;
 
-        public Generator(ref Grid grid, string[] texts, int count)
+        public Generator(ref Grid grid, string[] texts, int collumn, int row)
         {
             baseGrid = grid;
-            CollumnCount = count;
+            
+            CollumnCount = collumn;
+            RowCount = row;
+
             CollumnTexts = texts;
-            generatedTextBoxed = new TextBox[CollumnCount, CollumnCount];
-            generatedLabels = new Label[CollumnCount, CollumnCount];
-            generatedButtons = new Button[CollumnCount];
+            generatedTextBoxed = new TextBox[RowCount, CollumnCount];
+            generatedLabels = new Label[RowCount, CollumnCount];
+            //generatedButtons = new Button[RowCount];
         }
 
-        public bool GenerateElements(int rowCount)
+        public bool GenerateElements(int row = -1)
         {
-            generatedTextBoxed = new TextBox[50, 50];
-            generatedLabels = new Label[52, 52];
-            if (rowCount < 1)
-            {
-                Logger.WriteRow("Error", $"Не удалось создать элементы интерфейса (count < 1);");
-                return false;
-            }
+            if (row != -1)
+                RowCount = row;
 
-            for (int i = 0; i < rowCount; i++)
+            generatedTextBoxed = new TextBox[CollumnCount, RowCount];
+            generatedLabels = new Label[CollumnCount, RowCount];
+            //generatedButtons = new Button[RowCount];
+
+            for (int y = 0; y < RowCount; y++)
             {
-                for (int j = 0; j < CollumnCount; j++)
+                for (int x = 0; x < CollumnCount; x++)
                 {
-                    CreateTextbox(i, j);
-                    CreateLabel(i, j, CollumnTexts[j]);
+                    CreateTextbox(x, y);
+                    CreateLabel(x, y, CollumnTexts[x]);
                 }
-                CreateButton(i);
+                //CreateButton(y);
             }
             return true;
         }
 
-        public void RemoveElements(int rowCount)
+        public void RemoveRow(int y)
         {
-            for (int y = 0; y < rowCount; y++)
+            for (int x = 0; x < CollumnCount; x++)
+            {
+                baseGrid.Children.Remove(generatedTextBoxed[x, y]);
+                baseGrid.Children.Remove(generatedLabels[x, y]);
+            }
+            //baseGrid.Children.Remove(generatedButtons[y]);
+
+        }
+
+        public void RemoveElements()
+        {
+            for (int y = 0; y < RowCount; y++)
             {
                 for (int x = 0; x < CollumnCount; x++)
                 {
                     baseGrid.Children.Remove(generatedTextBoxed[x, y]);
                     baseGrid.Children.Remove(generatedLabels[x, y]);
                 }
-                baseGrid.Children.Remove(generatedButtons[y]);
+                //baseGrid.Children.Remove(generatedButtons[y]);
             }
         }
 
-        public void CreateTextbox(int i, int j)
+        public void CreateTextbox(int x, int y)
         {
-            generatedTextBoxed[i, j] = new TextBox
+            generatedTextBoxed[x, y] = new TextBox
             {
                 HorizontalAlignment = HorizontalAlignment.Left,
                 VerticalAlignment = VerticalAlignment.Top,
-                Margin = new Thickness(70 * j + 40, 40 * i, 0, 0),
+                Margin = new Thickness(70 * x + 40, 40 * y, 0, 0),
                 Height = 30,
                 Width = 30,
                 FontFamily = new FontFamily("Microsoft Sans Serif"),
                 FontSize = 16,
                 TextAlignment = TextAlignment.Center
             };
-            baseGrid.Children.Add(generatedTextBoxed[i, j]);
+            baseGrid.Children.Add(generatedTextBoxed[x, y]);
         }
 
-        public void CreateLabel(int i, int j, string text)
+        public void CreateLabel(int x, int y, string text)
         {
-            generatedLabels[i, j] = new Label
+            generatedLabels[x, y] = new Label
             {
                 HorizontalAlignment = HorizontalAlignment.Left,
                 VerticalAlignment = VerticalAlignment.Top,
-                Margin = new Thickness(70 * j, 40 * i, 0, 0),
+                Margin = new Thickness(70 * x, 40 * y, 0, 0),
                 Height = 30,
                 Width = 60,
                 FontFamily = new FontFamily("Microsoft Sans Serif"),
                 FontSize = 16,
                 Content = text
             };
-            generatedLabels[i, j].BringIntoView();
-            baseGrid.Children.Add(generatedLabels[i, j]);
+            generatedLabels[x, y].BringIntoView();
+            baseGrid.Children.Add(generatedLabels[x, y]);
         }
 
-        public void CreateButton(int i)
+        /*
+        public void CreateButton(int y)
         {
-            generatedButtons[i] = new Button
+            generatedButtons[y] = new Button
             {
                 HorizontalAlignment = HorizontalAlignment.Right,
                 VerticalAlignment = VerticalAlignment.Top,
-                Margin = new Thickness(0, 40 * i, 10, 0),
+                Margin = new Thickness(0, 40 * y, 10, 0),
                 Height = 30,
                 Width = 30,
                 FontFamily = new FontFamily("Microsoft Sans Serif"),
                 FontSize = 16,
                 Content = "-"
             };
-            generatedButtons[i].BringIntoView();
-            baseGrid.Children.Add(generatedButtons[i]);
+            generatedButtons[y].BringIntoView();
+            generatedButtons[y].Name = $"{y}";
+            generatedButtons[y].ClickEvent = EventManager.RegisterRoutedEvent("Click", RoutingStrategy.Direct, typeof(RoutedEventHandler), typeof(generatedButtons[y]));
+            baseGrid.Children.Add(generatedButtons[y]);
         }
+
+        private void button_click(object sender, RoutedEventArgs e, int y)
+        {
+
+        }*/
     }
 }
