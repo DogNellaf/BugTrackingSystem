@@ -26,26 +26,20 @@ namespace BugTrackingSystem
         public string FilePath = "";
 
         private SQLiteBase dataBase = new SQLiteBase();
-        private bool isLoaded;
 
         public MainWindow()
         {
-            isLoaded = false;
             InitializeComponent();
             Logger.ClearLogFile();
         }
 
         public void ReloadBase()
         {
-            if (isLoaded)
-            {
-                dataBase.LoadBase();
-                Logger.WriteRow("System", "база обновлена;");
-            }
-            else
-            {
-                Logger.WriteRow("Warning", "база не была загружена, поэтому обновление не требуется;");
-            }
+            dataBase.LoadBase();
+            //загружаем все таблицы
+            dataBase.QueryToBase("SELECT * FROM Users", "Таблица пустая", textbox_ListOfUsers);
+            dataBase.QueryToBase("SELECT * FROM Project", "Таблица пустая", textbox_ListOfProjects);
+            Logger.WriteRow("System", "база обновлена;");
         }
 
         //нажатие на кнопку создания нового файла
@@ -65,7 +59,6 @@ namespace BugTrackingSystem
                 dataBase.CreateNewBase();
                 dataBase.dbPath = FilePath;
                 dataBase.LoadBase();
-                isLoaded = true;
             }
             else
             {

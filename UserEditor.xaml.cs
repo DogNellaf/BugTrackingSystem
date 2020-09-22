@@ -21,7 +21,6 @@ namespace BugTrackingSystem
         private SQLiteBase dataBase;
         private Generator gen;
         private DataTable table;
-        private bool isEditable = true;
 
         public UserEditor(MainWindow win, SQLiteBase db)
         {
@@ -63,7 +62,12 @@ namespace BugTrackingSystem
             if (row.ShowDialog() == true)
             {
                 rowCount = int.Parse(row.textbox_input.Text);
-                dataBase.QueryToBase($"DELETE FROM Users WHERE id = {rowCount}; ", $"Не удалось удалить строку {rowCount}", null);
+                table = dataBase.QueryToBase($"DELETE FROM Users WHERE id = {rowCount}; ", $"Не удалось удалить строку {rowCount}", null);
+                gen.RemoveElements();
+
+                table = dataBase.QueryToBase("SELECT * FROM Users", "Таблица с пользователями пустая", null);
+                gen.GenerateElements(table.Rows.Count);
+                dataBase.LoadTableInBoxes(ref gen, "Users");
             }    
 
         }
