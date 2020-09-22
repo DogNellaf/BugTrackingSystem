@@ -38,21 +38,99 @@ namespace BugTrackingSystem
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            dataBase.ReWriteTable(ref gen, "Tasks");
-            window.ReloadBase();
-            window.Visibility = Visibility.Visible;
-            Close();
+            bool isHaveEmpty = false;
+            //проверяем поля
+            for (int i = 0; i < table.Rows.Count; i++)
+            {
+                string temp = gen.generatedTextBoxed[1, i].Text; //проект
+                string temp2 = gen.generatedTextBoxed[5, i].Text; //исполнитель
+                if (temp == "" || temp == "NULL" || temp == "Null" || temp == "null")
+                {
+                    isHaveEmpty = true;
+                    MessageBox.Show("Проект не может быть пустым!");
+                    Logger.WriteRow("Error", "Пользователь попытался сохранить данные задач с пустым полем под проект!");
+                    break;
+                }
+                else if (temp2 == "" || temp2 == "NULL" || temp2 == "Null" || temp2 == "null")
+                {
+                    isHaveEmpty = true;
+                    MessageBox.Show("Исполнитель не может быть пустым!");
+                    Logger.WriteRow("Error", "Пользователь попытался сохранить данные задач с пустым полем под исполнителя!");
+                    break;
+                }
+            }
+
+            if (!isHaveEmpty)
+            {
+                DataTable users = dataBase.QueryToBase("SELECT * FROM Users", "Таблица с пользователями пустая", null);
+                DataTable project = dataBase.QueryToBase("SELECT * FROM Project", "Таблица с проектами пустая", null);
+
+                bool usersIsCorrect = false;
+                bool projectsIsCorrect = false;
+
+                //проверка по проектам
+                for (int i = 0; i < table.Rows.Count; i++)
+                {
+                    for (int j = 0; j < project.Rows.Count; j++)
+                    {
+                        if (gen.generatedTextBoxed[1, i].Text == project.Rows[j].ItemArray[0].ToString())
+                        {
+                            projectsIsCorrect = true;
+                            break;
+                        }
+                        else
+                        {
+                            projectsIsCorrect = false;
+                        }
+                    }
+                    if (!projectsIsCorrect)
+                        break;
+                }
+
+                //проверка по пользователям
+                for (int i = 0; i < table.Rows.Count; i++)
+                {
+                    for (int j = 0; j < users.Rows.Count; j++)
+                    {
+                        if (gen.generatedTextBoxed[5, i].Text == users.Rows[j].ItemArray[0].ToString())
+                        {
+                            usersIsCorrect = true;
+                            break;
+                        }
+                        else
+                        {
+                            usersIsCorrect = false;
+                        }
+                    }
+                    if (!usersIsCorrect)
+                        break;
+                }
+
+                if (usersIsCorrect && projectsIsCorrect)
+                {
+                    dataBase.ReWriteTable(ref gen, "Tasks");
+                    window.ReloadBase();
+                    window.Visibility = Visibility.Visible;
+                    Close();
+                }
+                else
+                {
+                    MessageBox.Show(@"Введите реальные проект\пользователя!", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    Logger.WriteRow("Warning", "Пользователь ввел несуществующие данные!");
+                }
+
+            }
         }
 
         private void Button_Click_1(object sender, RoutedEventArgs e)
         {
-            DataTable dt = dataBase.QueryToBase("SELECT * FROM Tasks",
-                "Таблица пустая", null);
-            dataBase.QueryToBase($"INSERT INTO Tasks (id, project, title, type, priority, user, description) values ({dt.Rows.Count}, NULL, NULL, NULL, NULL, NULL, NULL)", "Не удалось добавить новое значение", null);
-            table = dataBase.QueryToBase("SELECT * FROM Tasks", "Таблица с пользователями пустая", null);
-            gen.RemoveElements();
-            gen.GenerateElements(table.Rows.Count);
-            dataBase.LoadTableInBoxes(ref gen, "Tasks");
+                DataTable dt = dataBase.QueryToBase("SELECT * FROM Tasks",
+                    "Таблица пустая", null);
+                dataBase.QueryToBase($"INSERT INTO Tasks (id, project, title, type, priority, user, description) values ({dt.Rows.Count}, NULL, NULL, NULL, NULL, NULL, NULL)", "Не удалось добавить новое значение", null);
+                table = dataBase.QueryToBase("SELECT * FROM Tasks", "Таблица с пользователями пустая", null);
+                gen.RemoveElements();
+                gen.GenerateElements(table.Rows.Count);
+                dataBase.LoadTableInBoxes(ref gen, "Tasks");
         }
 
         private void button_confirm_Click(object sender, RoutedEventArgs e)
