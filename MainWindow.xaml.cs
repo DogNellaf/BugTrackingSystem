@@ -73,8 +73,8 @@ namespace BugTrackingSystem
                 textbox_ListOfProjects.Text = "";
 
                 //загружаем все таблицы
-                dataBase.ReadData("SELECT * FROM Users", "Таблица пустая", textbox_ListOfUsers);
-                dataBase.ReadData("SELECT * FROM Project", "Таблица пустая", textbox_ListOfProjects);
+                dataBase.QueryToBase("SELECT * FROM Users", "Таблица пустая", textbox_ListOfUsers);
+                dataBase.QueryToBase("SELECT * FROM Project", "Таблица пустая", textbox_ListOfProjects);
             }
             else
             {
@@ -84,9 +84,16 @@ namespace BugTrackingSystem
 
         private void button_usereditor_Click(object sender, RoutedEventArgs e)
         {
-            UserEditor editor = new UserEditor(this, dataBase);
-            editor.Show();
-            Visibility = Visibility.Hidden;
+            if (dataBase.CheckConnection())
+            {
+                UserEditor editor = new UserEditor(this, dataBase);
+                editor.Show();
+                Visibility = Visibility.Hidden;
+            }
+            else
+            {
+                Logger.WriteRow("Error", $"Пользователь попытался открыть редактор пользователей без загрузки базы;");
+            }    
         }
 
         private void button_taskeditor_Click(object sender, RoutedEventArgs e)
@@ -111,7 +118,7 @@ namespace BugTrackingSystem
             {
                 if (int.TryParse(textbox_NameOfProject.Text, out int number))
                 {
-                    dataBase.ReadData($"SELECT * FROM Tasks T WHERE T.project = {number}", 
+                    dataBase.QueryToBase($"SELECT * FROM Tasks T WHERE T.project = {number}", 
                         "Проект не найден или в проекте нет задач;", textbox_ListOfTasksInProject);
                 }
                 else
@@ -129,7 +136,7 @@ namespace BugTrackingSystem
         {
             if (!(textbox_NameOfUser.Text == ""))
             {
-                dataBase.ReadData($"SELECT * FROM Tasks WHERE user = '{textbox_NameOfUser.Text}'",
+                dataBase.QueryToBase($"SELECT * FROM Tasks WHERE user = '{textbox_NameOfUser.Text}'",
                     "Пользователь не найден или на пользователе нет задач;", textbox_ListOfTasksInUser);
             }
             else

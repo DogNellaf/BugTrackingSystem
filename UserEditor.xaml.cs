@@ -19,16 +19,22 @@ namespace BugTrackingSystem
     {
         private MainWindow window;
         private SQLiteBase dataBase;
+        private Generator gen;
+        private DataTable table;
+        private bool isEditable = true;
+
         public UserEditor(MainWindow win, SQLiteBase db)
         {
             window = win;
             dataBase = db;
 
-            DataTable table = dataBase.ReadData("SELECT * FROM Users", "Таблица с пользователями пустая", null);
-
-            Generator.CreateElements(table);
-
             InitializeComponent();
+
+            table = dataBase.QueryToBase("SELECT * FROM Users", "Таблица с пользователями пустая", null);
+            gen = new Generator(ref mainGrid, new string[] {"id", "user", "role"}, 3);
+            gen.GenerateElements(table.Rows.Count);
+
+            
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
@@ -39,7 +45,20 @@ namespace BugTrackingSystem
 
         private void Button_Click_1(object sender, RoutedEventArgs e)
         {
+            DataTable dt = dataBase.QueryToBase("SELECT * FROM USERS", 
+                "Таблица пустая", null);
+            dataBase.QueryToBase($"INSERT INTO USERS (id, user, role) values " +
+                $"({dt.Rows.Count}, NULL, NULL)", "Не удалось добавить новое значение", null);
+            gen.RemoveElements(table.Rows.Count);
+            gen.GenerateElements(table.Rows.Count);
+        }
 
+        private void button_confirm_Click(object sender, RoutedEventArgs e)
+        {
+            if (isEditable)
+            {
+
+            }
         }
     }
 }

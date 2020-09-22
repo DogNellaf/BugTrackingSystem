@@ -29,6 +29,19 @@ namespace BugTrackingSystem
             createNewConnection();
         }
 
+        public bool CheckConnection()
+        {
+            if (databaseConnection != null)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+
+        }
+
         //создание новой базы 
         public void CreateNewBase()
         {
@@ -62,8 +75,9 @@ namespace BugTrackingSystem
 
         }
 
-        //функция чтения данных из таблицы
-        public DataTable ReadData(string query, string error, TextBox tb)
+
+        //чтение данных из базы
+        public DataTable QueryToBase(string query, string error, TextBox tb)
         {
             DataTable dTable = new DataTable();
             try
@@ -75,22 +89,29 @@ namespace BugTrackingSystem
 
                 if (dTable.Rows.Count > 0)
                 {
-                    tb.Text = "";
-
-                    for (int i = 0; i < dTable.Rows.Count; i++)
+                    if (tb != null)
                     {
-                        object[] temp = dTable.Rows[i].ItemArray;
-                        for (int j = 0; j < temp.Length; j++)
+                        tb.Text = "";
+                        for (int i = 0; i < dTable.Rows.Count; i++)
                         {
-                            tb.Text += $"{dTable.Rows[i].ItemArray[j]}; ";
+                            object[] temp = dTable.Rows[i].ItemArray;
+                            for (int j = 0; j < temp.Length; j++)
+                            {
+                                tb.Text += $"{dTable.Rows[i].ItemArray[j]}; ";
+                            }
+
+                            tb.Text += "\n";
                         }
-                        tb.Text += "\n";
                     }
                 }
                 else
                 {
-                    tb.Text += error;
-                    Logger.WriteRow("Warning", error);
+                    if (tb != null)
+                    {
+                        tb.Text += error;
+                        Logger.WriteRow("Warning", error);
+                    }
+
                 }
             }
             catch (SQLiteException ex)
