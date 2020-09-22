@@ -7,10 +7,14 @@
         mc:Ignorable="d"
         Title="RowWindow" Height="152.158" Width="236.691">
     <Grid>
-        <Label Content="Введите номер строки" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="212"/>
-        <TextBox Name="textbox_input" HorizontalAlignment="Left" Height="23" Margin="10,41,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="212"/>
-        <Button Content="ОК" HorizontalAlignment="Left" Margin="10,69,0,0" VerticalAlignment="Top" Width="100" Height="40" Click="Accept_Click" FontSize="16"/>
-        <Button Content="Отмена" HorizontalAlignment="Left" Margin="122,69,0,13.4" Width="100" FontSize="16" Click="Button_Click"/>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="198*"/>
+            <ColumnDefinition Width="31*"/>
+        </Grid.ColumnDefinitions>
+        <Label Content="Введите номер строки" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="212" Grid.ColumnSpan="2"/>
+        <TextBox Name="textbox_input" HorizontalAlignment="Left" Height="23" Margin="10,41,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="212" Grid.ColumnSpan="2"/>
+        <Button Content="ОК" HorizontalAlignment="Left" Margin="10,69,0,0" VerticalAlignment="Top" Width="100" Height="42" Click="Accept_Click" FontSize="16"/>
+        <Button Content="Отмена" HorizontalAlignment="Left" Margin="122,69,0,0" Width="100" FontSize="16" Click="Button_Click" Grid.ColumnSpan="2" VerticalAlignment="Top" Height="42"/>
 
     </Grid>
 </Window>

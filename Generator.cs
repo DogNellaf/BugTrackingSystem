@@ -15,7 +15,7 @@ namespace BugTrackingSystem
     {
         public Grid baseGrid = new Grid();
         public TextBox[,] generatedTextBoxed;
-        public Label[,] generatedLabels;
+        public Label[] generatedLabels;
         //public Button[] generatedButtons;
 
         public string[] CollumnTexts;
@@ -32,7 +32,7 @@ namespace BugTrackingSystem
 
             CollumnTexts = texts;
             generatedTextBoxed = new TextBox[RowCount, CollumnCount];
-            generatedLabels = new Label[RowCount, CollumnCount];
+            generatedLabels = new Label[CollumnCount];
             //generatedButtons = new Button[RowCount];
         }
 
@@ -42,17 +42,19 @@ namespace BugTrackingSystem
                 RowCount = row;
 
             generatedTextBoxed = new TextBox[CollumnCount, RowCount];
-            generatedLabels = new Label[CollumnCount, RowCount];
-            //generatedButtons = new Button[RowCount];
+            generatedLabels = new Label[CollumnCount];
+
+            for (int j = 0; j < CollumnCount; j++)
+            {
+                CreateLabel(j, CollumnTexts[j]);
+            }
 
             for (int y = 0; y < RowCount; y++)
             {
                 for (int x = 0; x < CollumnCount; x++)
                 {
                     CreateTextbox(x, y);
-                    CreateLabel(x, y, CollumnTexts[x]);
                 }
-                //CreateButton(y);
             }
             return true;
         }
@@ -62,7 +64,7 @@ namespace BugTrackingSystem
             for (int x = 0; x < CollumnCount; x++)
             {
                 baseGrid.Children.Remove(generatedTextBoxed[x, y]);
-                baseGrid.Children.Remove(generatedLabels[x, y]);
+                baseGrid.Children.Remove(generatedLabels[x]);
             }
             //baseGrid.Children.Remove(generatedButtons[y]);
 
@@ -75,7 +77,7 @@ namespace BugTrackingSystem
                 for (int x = 0; x < CollumnCount; x++)
                 {
                     baseGrid.Children.Remove(generatedTextBoxed[x, y]);
-                    baseGrid.Children.Remove(generatedLabels[x, y]);
+                    baseGrid.Children.Remove(generatedLabels[x]);
                 }
                 //baseGrid.Children.Remove(generatedButtons[y]);
             }
@@ -87,7 +89,7 @@ namespace BugTrackingSystem
             {
                 HorizontalAlignment = HorizontalAlignment.Left,
                 VerticalAlignment = VerticalAlignment.Top,
-                Margin = new Thickness(140 * x + 40, 40 * y, 0, 0),
+                Margin = new Thickness(110 * x , 40 * (y + 1) , 0, 0),
                 Height = 30,
                 Width = 100,
                 FontFamily = new FontFamily("Microsoft Sans Serif"),
@@ -102,21 +104,21 @@ namespace BugTrackingSystem
             baseGrid.Children.Add(generatedTextBoxed[x, y]);
         }
 
-        public void CreateLabel(int x, int y, string text)
+        public void CreateLabel(int x, string text)
         {
-            generatedLabels[x, y] = new Label
+            generatedLabels[x] = new Label
             {
                 HorizontalAlignment = HorizontalAlignment.Left,
                 VerticalAlignment = VerticalAlignment.Top,
-                Margin = new Thickness(140 * x, 40 * y, 0, 0),
+                Margin = new Thickness(105 * x + 30, 0, 0, 0),
                 Height = 30,
-                Width = 60,
+                Width = 100,
                 FontFamily = new FontFamily("Microsoft Sans Serif"),
                 FontSize = 16,
                 Content = text
             };
-            generatedLabels[x, y].BringIntoView();
-            baseGrid.Children.Add(generatedLabels[x, y]);
+            generatedLabels[x].BringIntoView();
+            baseGrid.Children.Add(generatedLabels[x]);
         }
 
         /*

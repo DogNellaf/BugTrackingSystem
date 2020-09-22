@@ -109,17 +109,30 @@ namespace BugTrackingSystem
 
         private void button_taskeditor_Click(object sender, RoutedEventArgs e)
         {
-
+            if (dataBase.CheckConnection())
+            {
+                TaskEditor editor = new TaskEditor(this, dataBase);
+                editor.Show();
+                Visibility = Visibility.Hidden;
+            }
+            else
+            {
+                Logger.WriteRow("Error", $"Пользователь попытался открыть редактор задач без загрузки базы;");
+            }
         }
 
         private void button_projecteditor_Click(object sender, RoutedEventArgs e)
         {
-
-        }
-
-        private void text_NameOfProject_TextChanged(object sender, TextChangedEventArgs e)
-        {
-
+            if (dataBase.CheckConnection())
+            {
+                ProjectEditor editor = new ProjectEditor(this, dataBase);
+                editor.Show();
+                Visibility = Visibility.Hidden;
+            }
+            else
+            {
+                Logger.WriteRow("Error", $"Пользователь попытался открыть редактор проектов без загрузки базы;");
+            }
         }
 
         private void button_loadByProject_Click(object sender, RoutedEventArgs e)

@@ -1,0 +1,21 @@
+﻿<Window x:Class="BugTrackingSystem.TaskEditor"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:BugTrackingSystem"
+        mc:Ignorable="d"
+        Title="TaskEditor" Height="450" Width="1277.049">
+    <Grid>
+        <Grid x:Name="mainGrid" Margin="15,42,0,5" HorizontalAlignment="Left" Width="1244">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+        </Grid>
+        <Label Content="Редактор задач" HorizontalAlignment="Left" Margin="15,6,0,0" VerticalAlignment="Top" Width="199" Height="31" FontSize="16"/>
+        <Button Content="Применить" HorizontalAlignment="Left" Margin="1057,9,0,0" VerticalAlignment="Top" Width="202" Height="31" FontSize="16" Click="Button_Click"/>
+        <Button Content="+" HorizontalAlignment="Left" Margin="815,10,0,0" VerticalAlignment="Top" Width="30" Height="30" Click="Button_Click_1" FontSize="16" RenderTransformOrigin="2.931,0.788"/>
+        <Button x:Name="button_confirm" Content="Удалить строку" HorizontalAlignment="Left" Margin="850,9,0,0" VerticalAlignment="Top" Width="202" Height="31" FontSize="16" Click="button_confirm_Click"/>
+
+    </Grid>
+</Window>

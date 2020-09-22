@@ -58,7 +58,7 @@
         <TextBox Name="textbox_ListOfProjects" Text="" IsReadOnly="True" TextWrapping="Wrap" HorizontalAlignment="Left" Margin="10,201,0,0" VerticalAlignment="Top" Height="100" Width="807"/>
         <TextBox Name="textbox_ListOfTasksInProject" Text="" IsReadOnly="True" TextWrapping="Wrap" HorizontalAlignment="Left" Margin="10,336,0,0" VerticalAlignment="Top" Height="102" Width="807"/>
         <TextBox Name="textbox_ListOfTasksInUser" Text="" IsReadOnly="True" TextWrapping="Wrap" HorizontalAlignment="Left" Margin="10,473,0,0" VerticalAlignment="Top" Height="101" Width="807"/>
-        <TextBox x:Name="textbox_NameOfProject" HorizontalAlignment="Left" Height="25" Margin="622,306,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="162" TextChanged="text_NameOfProject_TextChanged"/>
+        <TextBox x:Name="textbox_NameOfProject" HorizontalAlignment="Left" Height="25" Margin="622,306,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="162"/>
         <TextBox x:Name="textbox_NameOfUser" HorizontalAlignment="Left" Height="25" Margin="622,443,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="162"/>
         <Label Content="Пользователи (номер, имя, роль)" HorizontalAlignment="Left" Margin="10,41,0,0" VerticalAlignment="Top" Height="25" Width="807"/>
         <Label Content="Проекты (номер, название, автор)" HorizontalAlignment="Left" Margin="10,171,0,0" VerticalAlignment="Top" Height="25" Width="807"/>
